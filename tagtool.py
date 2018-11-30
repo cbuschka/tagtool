@@ -36,10 +36,6 @@ class TagFormat:
   def match(self, tagName):
     return self.pattern.match(tagName)
 
-  def sortTags(self, tags):
-    #tags.sort(key=lambda tag: tag.parts[0]*1000000+tag.parts[1]*1000+tag.parts[2])
-    tags.sort()
- 
   def format(self, tag):
     return "v{}.{}.{}".format(tag.parts[0], tag.parts[1], tag.parts[2])
 
@@ -70,6 +66,7 @@ class Git:
         tagParts = [int(match.group(1)), int(match.group(2)), int(match.group(3)) ]
         tag = Tag(tagParts)
         tags.append(tag)
+    tags.sort()
 
     return tags
 
@@ -81,7 +78,6 @@ class Command:
 
   def run(self, args):
     tags = self.git.getTags(self.tagFormat)
-    self.tagFormat.sortTags(tags)
     if len(args) > 1 and args[1] == 'last':
       lastTag = self.tagFormat.lastTag(tags)
       if lastTag is not None:
