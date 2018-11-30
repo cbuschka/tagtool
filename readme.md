@@ -1,4 +1,4 @@
-# tagtool - python script to mannipulate git tags
+# tagtool - python script to manipulate git tags
 
 ## Usage
 
@@ -10,4 +10,9 @@ tagtool next
 tagtool nextPatch
 tagtool nextMinor
 tagtool nextMajor
+
+## License
+Copyright (c) 2018 by [Cornelius Buschka](https://github.com/cbuschka).
+
+[MIT](./license.txt)
 
