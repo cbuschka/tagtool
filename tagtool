@@ -9,8 +9,8 @@ class TagFormat:
   def __init__(self, pattern):
     self.pattern = pattern
 
-  def match(self, tag):
-    return self.pattern.match(tag)
+  def match(self, tagName):
+    return self.pattern.match(tagName)
 
   def sortTags(self, tags):
     tags.sort(key=lambda tag: tag[0]*1000000+tag[1]*1000+tag[2])
