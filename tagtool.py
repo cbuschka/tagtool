@@ -9,6 +9,26 @@ class Tag:
   def __init__(self, parts):
     self.parts = parts
 
+  def __eq__(self, other):
+    return self.__cmp__(other) == 0
+
+  def __cmp__(self, other):
+    for i in range(max(len(self.parts), len(other.parts))):
+      if i > len(self.parts)-1:
+        return -1
+      if i > len(other.parts)-1:
+        return 1
+      if self.parts[i] < other.parts[i]:
+        return -1 if self.parts[i]-other.parts[i] < 0 else 1
+ 
+    return 0
+
+  def __lt__(self, other):
+    return self.__cmp__(other) == -1
+
+  def __str__(self):
+    return str(self.parts)
+
 class TagFormat:
   def __init__(self, pattern):
     self.pattern = pattern
@@ -17,7 +37,8 @@ class TagFormat:
     return self.pattern.match(tagName)
 
   def sortTags(self, tags):
-    tags.sort(key=lambda tag: tag.parts[0]*1000000+tag.parts[1]*1000+tag.parts[2])
+    #tags.sort(key=lambda tag: tag.parts[0]*1000000+tag.parts[1]*1000+tag.parts[2])
+    tags.sort()
  
   def format(self, tag):
     return "v{}.{}.{}".format(tag.parts[0], tag.parts[1], tag.parts[2])
@@ -69,8 +90,11 @@ class Command:
     elif len(args) > 1 and args[1] == 'next':
       nextTag = self.tagFormat.nextTag(tags)
       print(self.tagFormat.format(nextTag))
+    elif len(args) > 1 and args[1] == 'list':
+      for tag in tags:
+        print(self.tagFormat.format(tag))
     else:
-      print("tagtool last|next")
+      print("tagtool last|next|list")
       return 1
 
     return 0
