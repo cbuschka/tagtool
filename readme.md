@@ -5,7 +5,9 @@
 ### Get last tag of format (vX.X.X)
 tagtool last
 
-### Get the tag (patch increment) following last tag
+### Get next tag
 tagtool next
-
+tagtool nextPatch
+tagtool nextMinor
+tagtool nextMajor
 

@@ -1,4 +1,5 @@
 PROJECT_DIR := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+SRC_DIR := $(PROJECT_DIR)/src
 
 init:
 	@echo "Project dir is $(PROJECT_DIR)."
@@ -8,4 +9,4 @@ install-prerequesites:	init
 
 tests:	init
 	@echo "Running tests..."; \
-	PYTHONPATH=$(PROJECT_DIR) python -m unittest discover -s $(PROJECT_DIR) -v -p '*_test.py'
+	PYTHONPATH=$(SRC_DIR) python -B -m unittest discover -s $(SRC_DIR) -v -p '*_test.py'
