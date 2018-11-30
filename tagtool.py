@@ -76,24 +76,36 @@ class Command:
     pattern = re.compile('^v([0-9]+)\.([0-9]+)\.([0-9]+)$')
     self.tagFormat = TagFormat(pattern)
 
-  def run(self, args):
+  def _printLast(self):
     tags = self.git.getTags(self.tagFormat)
+    lastTag = self.tagFormat.lastTag(tags)
+    if lastTag is not None:
+      print(self.tagFormat.format(lastTag))
+      return 0
+    return 1
+
+  def _printNext(self):
+    tags = self.git.getTags(self.tagFormat)
+    nextTag = self.tagFormat.nextTag(tags)
+    print(self.tagFormat.format(nextTag))
+    return 0
+
+  def _printList(self):
+    tags = self.git.getTags(self.tagFormat)
+    for tag in tags:
+      print(self.tagFormat.format(tag))
+    return 0
+
+  def run(self, args):
     if len(args) > 1 and args[1] == 'last':
-      lastTag = self.tagFormat.lastTag(tags)
-      if lastTag is not None:
-        print(self.tagFormat.format(lastTag))
-      return 1
+      return self._printLast()
     elif len(args) > 1 and args[1] == 'next':
-      nextTag = self.tagFormat.nextTag(tags)
-      print(self.tagFormat.format(nextTag))
+      return self._printNext()
     elif len(args) > 1 and args[1] == 'list':
-      for tag in tags:
-        print(self.tagFormat.format(tag))
+      return self._printList()
     else:
       print("tagtool last|next|list")
       return 1
-
-    return 0
  
 if __name__ == '__main__':
   command = Command()
